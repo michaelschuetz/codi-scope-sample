@@ -130,12 +130,14 @@
       <groupId>org.apache.myfaces.core</groupId>
       <artifactId>myfaces-api</artifactId>
       <version>${myfaces.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.myfaces.core</groupId>
       <artifactId>myfaces-impl</artifactId>
       <version>${myfaces.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <!-- MyFaces CODI -->
@@ -171,41 +173,47 @@
       <groupId>org.apache.openwebbeans</groupId>
       <artifactId>openwebbeans-impl</artifactId>
       <version>${openwebbeans.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.openwebbeans</groupId>
       <artifactId>openwebbeans-jsf</artifactId>
       <version>${openwebbeans.version}</version>
-      <scope>runtime</scope>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
     <groupId>org.apache.geronimo.specs</groupId>
       <artifactId>geronimo-interceptor_1.1_spec</artifactId>
       <version>${geronimo_interceptor.version}</version>
+      <scope>provided</scope>
       <!--scope>runtime</scope-->
     </dependency>    
     <dependency>
       <groupId>org.apache.openwebbeans</groupId>
       <artifactId>openwebbeans-web</artifactId>
       <version>${openwebbeans.version}</version>
+      <scope>provided</scope>
     </dependency>
    <dependency>
      <groupId>org.apache.openwebbeans</groupId>
      <artifactId>openwebbeans-spi</artifactId>
      <version>${openwebbeans.version}</version>
+     <scope>provided</scope>
    </dependency>
     <dependency>
       <groupId>org.apache.geronimo.specs</groupId>
       <artifactId>geronimo-jcdi_1.0_spec</artifactId>
       <version>${geronimo_cdi.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.geronimo.specs</groupId>
       <artifactId>geronimo-atinject_1.0_spec</artifactId>
       <version>${geronimo_atinject.version}</version>
+      <scope>provided</scope>
     </dependency>
 
    <!-- 
@@ -218,13 +226,14 @@
       <groupId>org.apache.geronimo.specs</groupId>
       <artifactId>geronimo-validation_1.0_spec</artifactId>
       <version>1.0</version>
-      <scope>runtime</scope>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>javax.annotation</groupId>
       <artifactId>jsr250-api</artifactId>
       <version>1.0</version>
+      <scope>provided</scope>
     </dependency>
 
 

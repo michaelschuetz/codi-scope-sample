@@ -2,16 +2,34 @@ Apache MyFaces CODI sample: Different scopes...
 
 Open issue with JBossAS6:
 
-WeldBootstrapBean state=Create: java.lang.RuntimeException: Service class or
-g.apache.myfaces.extensions.cdi.core.impl.projectstage.ProjectStageActivationExtension didn't implement the Extension interface
-        at org.jboss.weld.util.ServiceLoader.loadClass(ServiceLoader.java:261) [:6.0.0.Final]
-        at org.jboss.weld.util.ServiceLoader.loadService(ServiceLoader.java:233) [:6.0.0.Final]
-        at org.jboss.weld.util.ServiceLoader.loadServiceFile(ServiceLoader.java:194) [:6.0.0.Final]
-        at org.jboss.weld.util.ServiceLoader.reload(ServiceLoader.java:157) [:6.0.0.Final]
-        at org.jboss.weld.util.ServiceLoader.iterator(ServiceLoader.java:346) [:6.0.0.Final]
-        at org.jboss.weld.bootstrap.ExtensionBeanDeployer.addExtensions(ExtensionBeanDeployer.java:93) [:6.0.0.Final]
-        at org.jboss.weld.bootstrap.WeldBootstrap.startInitialization(WeldBootstrap.java:333) [:6.0.0.Final]
-        at org.jboss.weld.integration.deployer.env.helpers.BootstrapBean.boot(BootstrapBean.java:92) [:6.0.0.Final]
-        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [:1.6.0_21]
-        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39) [:1.6.0_21]
-        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25) [:1.6.0_21]
+As recommended, I did only keep myfaces-extcdi-* jars.
+
+This resulted in:
+Error configuring application listener of class org.apache.webbeans.servlet.WebBeansConfigurationListener: java.lang.ClassNotFoundException: org.apache.webbeans.servlet.WebBeansConfigurationListener
+Error configuring application listener of class org.apache.myfaces.webapp.StartupServletContextListener: java.lang.ClassNotFoundException: org.apache.myfaces.webapp.StartupServletContextListener
+
+WebBeansConfigurationListener is contained in openwebbeans-web-1.0.0.jar and StartupServletContextListener in myfaces-impl-2.0.3.jar.
+
+So I did comment out Listener in web.xml:
+  <!--
+  <listener>
+    <listener-class>org.apache.webbeans.servlet.WebBeansConfigurationListener</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+  </listener>
+  -->
+
+After that server starts fine, using Mojarra 2.0.3.
+Applications works partially as expected:
+* JSF2 RequestScope does work as expected
+* JSF2 ViewScope does _not_ work: it seems not to be initialized
+* CODI Conversation and CODI Window-Scope do work as expected
+* CODI ViewAccessScoped does _not_ work as expected: it has been initialized, but never expires
+
+Not commenting out <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class> causes:
+class org.apache.myfaces.webapp.StartupServletContextListener: java.lang.ClassNotFoundException: org.apache.myfaces.webapp.StartupServletContextListener
+
+This is quite strange, as this class is provided in myfaces-impl-2.0.1.jar shipped with AS.
+TODO: bug?
