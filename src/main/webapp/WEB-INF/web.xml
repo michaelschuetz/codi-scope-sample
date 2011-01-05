@@ -19,44 +19,46 @@
     version="2.5">
 
   <context-param>
-    <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-    <param-value>.xhtml</param-value>
-  </context-param>
-
-  <context-param>
-    <param-name>javax.faces.FACELETS_VIEW_MAPPINGS</param-name>
-    <param-value>*.xhtml;*.jspx;*.jsff</param-value>
-  </context-param>
-
-  <context-param>
     <param-name>javax.faces.PROJECT_STAGE</param-name>   
     <param-value>Development</param-value>
   </context-param>
   
+  <!-- not required in JBoss-AS, Weld-Impl will be used
+  <listener>
+        <listener-class>org.apache.webbeans.servlet.WebBeansConfigurationListener</listener-class>
+    </listener>
+  -->
+  
+  <!-- see https://issues.apache.org/jira/browse/MYFACES-2981 use beans.xml instead
   <context-param>
     <param-name>org.apache.myfaces.annotation.SCAN_PACKAGES</param-name>
     <param-value>net.wessendorf</param-value>
   </context-param>
-
-  <!-- troubles with CDI impl and MyFaces
-  <listener>
-    <listener-class>org.apache.webbeans.servlet.WebBeansConfigurationListener</listener-class>
-  </listener>
-
-  <listener>
-    <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
-  </listener>
   -->
 
-  <servlet>
-    <servlet-name>Faces Servlet</servlet-name>
-    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-    
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>/faces/*</url-pattern>
-  </servlet-mapping>
+  <!-- specify JSF impl -->
+  <context-param>
+      <param-name>org.jboss.jbossfaces.JSF_CONFIG_NAME</param-name>
+      <param-value>MyFaces-2.0</param-value>
+   </context-param>
+
+  <!-- Faces Servlet -->
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+
+    <!-- Faces Servlet Mapping -->
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+	
+	<!-- Welcome files -->
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
 
 </web-app>
