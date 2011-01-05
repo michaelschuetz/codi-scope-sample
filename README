@@ -1,35 +1,14 @@
 Apache MyFaces CODI sample: Different scopes...
 
-Open issue with JBossAS6:
+TODO:
+after switching to MyFaces JSF impl, following error occured:
+initializing MyFaces: URI scheme is not "file": java.lang.IllegalArgumentException: URI scheme is not "file"
 
-As recommended, I did only keep myfaces-extcdi-* jars.
+see: http://seamframework.org/Community/CannotSerializeSessionAttributeOrgapachemyfacesviewfaceletsDefaultFaceletsStateManagementHelperSERIALIZEDVIEWForSession4F66763ACB1F009D75674C8225413B30JavaioNotSerializableExceptionOrgjbossweldbeanManagedBean
 
-This resulted in:
-Error configuring application listener of class org.apache.webbeans.servlet.WebBeansConfigurationListener: java.lang.ClassNotFoundException: org.apache.webbeans.servlet.WebBeansConfigurationListener
-Error configuring application listener of class org.apache.myfaces.webapp.StartupServletContextListener: java.lang.ClassNotFoundException: org.apache.myfaces.webapp.StartupServletContextListener
-
-WebBeansConfigurationListener is contained in openwebbeans-web-1.0.0.jar and StartupServletContextListener in myfaces-impl-2.0.3.jar.
-
-So I did comment out Listener in web.xml:
-  <!--
-  <listener>
-    <listener-class>org.apache.webbeans.servlet.WebBeansConfigurationListener</listener-class>
-  </listener>
-
-  <listener>
-    <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
-  </listener>
-  -->
-
-After that server starts fine, using Mojarra 2.0.3.
-Applications works partially as expected:
+Application works partially as expected:
 * JSF2 RequestScope does work as expected
 * JSF2 ViewScope does _not_ work: it seems not to be initialized
 * CODI Conversation and CODI Window-Scope do work as expected
 * CODI ViewAccessScoped does _not_ work as expected: it has been initialized, but never expires
 
-Not commenting out <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class> causes:
-class org.apache.myfaces.webapp.StartupServletContextListener: java.lang.ClassNotFoundException: org.apache.myfaces.webapp.StartupServletContextListener
-
-This is quite strange, as this class is provided in myfaces-impl-2.0.1.jar shipped with AS.
-TODO: bug?
